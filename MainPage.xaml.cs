@@ -24,8 +24,13 @@ namespace thegame
         private List<string> adjs = new List<string>(); // contains current players adjacent squares
         private List<Rectangle> usedSquares = new List<Rectangle>();//Cannot move onto these squares
         private bool flag = false;//wtf is this for? Cow Pie Bingo 
-
-
+        //Colors
+        static SolidColorBrush p1color = new SolidColorBrush(Colors.Red); //Player 1 Square Color
+        static SolidColorBrush p2color = new SolidColorBrush(Colors.Blue); //Player 2 Square Color
+        static SolidColorBrush movecolor = new SolidColorBrush(Colors.Yellow); //Highlights where a player can move
+        static SolidColorBrush portalcolor = new SolidColorBrush(Colors.Magenta); //Color of portal
+        static SolidColorBrush gridcolor = new SolidColorBrush(Colors.White); //grid color
+        static SolidColorBrush linecolor = new SolidColorBrush(Colors.Brown);
         //----------------------------------CREATES PLAYING GRID----
         public void build()
         {
@@ -48,8 +53,8 @@ namespace thegame
                     string tag = "rect" + x.ToString() + "x" + y.ToString();
 
                     Rectangle block = new Rectangle();
-                    block.Fill = new SolidColorBrush(Colors.White);
-                    block.Stroke = new SolidColorBrush(Colors.Brown);
+                    block.Fill = gridcolor;
+                    block.Stroke = linecolor;
                     block.Width = BLOCK_SIZE;
                     block.Height = BLOCK_SIZE;
                     block.SetValue(Canvas.TopProperty, top);
@@ -67,24 +72,24 @@ namespace thegame
             {
                 turn="p1";
                 adjs.Add("rect1x2");
-                ((Rectangle)blocksHash[adjs[0]]).Fill = new SolidColorBrush(Colors.Green);
+                ((Rectangle)blocksHash[adjs[0]]).Fill = movecolor;
                 adjs.Add("rect2x1");
-                ((Rectangle)blocksHash[adjs[1]]).Fill = new SolidColorBrush(Colors.Green);
+                ((Rectangle)blocksHash[adjs[1]]).Fill = movecolor;
                 adjs.Add("rect2x2");
-                ((Rectangle)blocksHash[adjs[2]]).Fill = new SolidColorBrush(Colors.Green);
+                ((Rectangle)blocksHash[adjs[2]]).Fill = movecolor;
             }
             else
             {
                 turn = "p2";
                 adjs.Add("rect"+squares.ToString()+"x"+(squares-1).ToString());
-                ((Rectangle)blocksHash[adjs[0]]).Fill = new SolidColorBrush(Colors.Green);
+                ((Rectangle)blocksHash[adjs[0]]).Fill = movecolor;
                 adjs.Add("rect" + (squares-1).ToString() + "x" + (squares - 1).ToString());
-                ((Rectangle)blocksHash[adjs[1]]).Fill = new SolidColorBrush(Colors.Green);
+                ((Rectangle)blocksHash[adjs[1]]).Fill = movecolor;
                 adjs.Add("rect" + (squares-1).ToString() + "x" + squares.ToString());
-                ((Rectangle)blocksHash[adjs[2]]).Fill = new SolidColorBrush(Colors.Green);
+                ((Rectangle)blocksHash[adjs[2]]).Fill = movecolor;
             }
-            ((Rectangle)blocksHash["rect1x1"]).Fill = new SolidColorBrush(Colors.Brown);
-            ((Rectangle)blocksHash["rect" + squares + "x" + squares]).Fill = new SolidColorBrush(Colors.Blue);
+            ((Rectangle)blocksHash["rect1x1"]).Fill = p1color;
+            ((Rectangle)blocksHash["rect" + squares + "x" + squares]).Fill = p2color;
         }
 
 
@@ -98,7 +103,7 @@ namespace thegame
                 {
                     if (((Rectangle)blocksHash[adjs[v]]).Fill.GetValue(SolidColorBrush.ColorProperty).Equals(Colors.Green))
                     {
-                        ((Rectangle)blocksHash[adjs[v]]).Fill = new SolidColorBrush(Colors.White);
+                        ((Rectangle)blocksHash[adjs[v]]).Fill = gridcolor;
                     }
                     
                 }
@@ -111,7 +116,7 @@ namespace thegame
                 {
                     if (((Rectangle)blocksHash[adjs[v]]).Fill.GetValue(SolidColorBrush.ColorProperty).Equals(Colors.Green))
                     {
-                        ((Rectangle)blocksHash[adjs[v]]).Fill = new SolidColorBrush(Colors.White);
+                        ((Rectangle)blocksHash[adjs[v]]).Fill = gridcolor;
                     }     
                 }
                 adjs.Clear();
@@ -126,10 +131,10 @@ namespace thegame
             usedSquares.Add(block);
 
             if (turn == "p1")
-                block.Fill = new SolidColorBrush(Colors.Brown);
+                block.Fill = p1color;
 
             else
-                block.Fill = new SolidColorBrush(Colors.Blue);
+                block.Fill = p2color;
 
             String name = block.Tag.ToString(); // "rect1x1"
             name = name.Substring(4); // chop off "rect"
@@ -161,7 +166,7 @@ namespace thegame
 
                             if (((Rectangle)blocksHash[adj]).Fill.GetValue(SolidColorBrush.ColorProperty).Equals(Colors.White))
                             {
-                                ((Rectangle)blocksHash[adj]).Fill = new SolidColorBrush(Colors.Green);
+                                ((Rectangle)blocksHash[adj]).Fill = movecolor;
                             }
                         }
                     }
