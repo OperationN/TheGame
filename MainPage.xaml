@@ -15,7 +15,7 @@
             <ColumnDefinition Width="100"/>
         </Grid.ColumnDefinitions>
 
-        <!-- TOP MESSAGE BOARD-->
+        <!-- TOP MESSAGE BOARD beep beep delete the beeps-->
         <Canvas x:Name="MsgCanvas" Background="Black" Width="500" Height="100" Grid.Row="0" Grid.Column="1">
             <StackPanel x:Name="GridDimStack" Background="Black" Orientation="Horizontal" Canvas.ZIndex="1" Width="500">
                 <TextBlock Text="Enter Grid size: " Margin="20" FontSize="12" Foreground="White"/>
