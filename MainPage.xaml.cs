@@ -12,6 +12,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using System.Text.RegularExpressions;
 
+
 namespace thegame
 {
     public partial class MainPage : UserControl
@@ -23,7 +24,7 @@ namespace thegame
         private static Dictionary<string, object> blocksHash = new Dictionary<string, object>(); // contains all blocks
         private List<string> adjs = new List<string>(); // contains current players adjacent squares
         private List<Rectangle> usedSquares = new List<Rectangle>();//Cannot move onto these squares
-        private bool flag = false;//wtf is this for? Cow Pie Bingo 
+        private bool flag = false;//wtf is this for? Cow Pie Bingo
         //Colors
         static SolidColorBrush p1color = new SolidColorBrush(Colors.Red); //Player 1 Square Color
         static SolidColorBrush p2color = new SolidColorBrush(Colors.Blue); //Player 2 Square Color
@@ -70,7 +71,7 @@ namespace thegame
             int whoGoesFirst = wgf.Next(1, 3);
             if (whoGoesFirst == 1)
             {
-                turn="p1";
+                turn = "p1";
                 adjs.Add("rect1x2");
                 ((Rectangle)blocksHash[adjs[0]]).Fill = movecolor;
                 adjs.Add("rect2x1");
@@ -81,46 +82,15 @@ namespace thegame
             else
             {
                 turn = "p2";
-                adjs.Add("rect"+squares.ToString()+"x"+(squares-1).ToString());
+                adjs.Add("rect" + squares.ToString() + "x" + (squares - 1).ToString());
                 ((Rectangle)blocksHash[adjs[0]]).Fill = movecolor;
-                adjs.Add("rect" + (squares-1).ToString() + "x" + (squares - 1).ToString());
+                adjs.Add("rect" + (squares - 1).ToString() + "x" + (squares - 1).ToString());
                 ((Rectangle)blocksHash[adjs[1]]).Fill = movecolor;
-                adjs.Add("rect" + (squares-1).ToString() + "x" + squares.ToString());
+                adjs.Add("rect" + (squares - 1).ToString() + "x" + squares.ToString());
                 ((Rectangle)blocksHash[adjs[2]]).Fill = movecolor;
             }
             ((Rectangle)blocksHash["rect1x1"]).Fill = p1color;
             ((Rectangle)blocksHash["rect" + squares + "x" + squares]).Fill = p2color;
-        }
-
-
-        //--------HIGHLIGHTS SQUARES w/ GREEN--------
-        public void turngreen(string adj)
-        {
-            if (turn == "p1")
-            {
-                adjs.Add(adj);
-                for (int v = adjs.Count - 1; v > 0; v--)
-                {
-                    if (((Rectangle)blocksHash[adjs[v]]).Fill.GetValue(SolidColorBrush.ColorProperty).Equals(Colors.Green))
-                    {
-                        ((Rectangle)blocksHash[adjs[v]]).Fill = gridcolor;
-                    }
-                    
-                }
-                adjs.Clear();
-            }
-            else
-            {
-                adjs.Add(adj);
-                for (int v = adjs.Count - 1; v > 0; v--)
-                {
-                    if (((Rectangle)blocksHash[adjs[v]]).Fill.GetValue(SolidColorBrush.ColorProperty).Equals(Colors.Green))
-                    {
-                        ((Rectangle)blocksHash[adjs[v]]).Fill = gridcolor;
-                    }     
-                }
-                adjs.Clear();
-            }
         }
 
 
@@ -136,46 +106,25 @@ namespace thegame
             else
                 block.Fill = p2color;
 
-            String name = block.Tag.ToString(); // "rect1x1"
-            name = name.Substring(4); // chop off "rect"
-            int x = name.IndexOf("x"); // find the "x"
-            int col = int.Parse(name.Substring(0, x)); // grab the column number
-            int row = int.Parse(name.Substring(x + 1)); // grab the row number
-
-            bool northExists, southExists, eastExists, westExists = false;
-
-            northExists = row - 1 > 0 ? true : false;
-            southExists = row + 1 <= squares ? true : false;
-            eastExists = col + 1 <= squares ? true : false;
-            westExists = col - 1 > 0 ? true : false;
-
+            //Testing player class
+            Player p = new Player();
+            p.move(block);
+            adjs = p.adjsquares(block, squares);
+            if (adjs != null)//If no adjacent squares are open, Player loses
+            {
+                for (int x = adjs.Count()-1; x >= 0; x--)
+                    ((Rectangle)blocksHash[adjs[x]]).Fill = movecolor;
+            }
+            else
+                msgboard4.Text = "Game Over! " + turn + ", You lose!";
             
-                String adj = null;
 
-                if (northExists && southExists && eastExists && westExists)
-                {
-                    for (int i = (col - 1); i <= (col + 1); i++)
-                    {
-                        for (int j = (row - 1); j <= (row + 1); j++)
-                        {
-                            if (i == col && j == row) continue;
+            flag = true;
 
-                            adj = "rect" + i.ToString() + "x" + j.ToString();
-
-                            turngreen(adj);
-
-                            if (((Rectangle)blocksHash[adj]).Fill.GetValue(SolidColorBrush.ColorProperty).Equals(Colors.White))
-                            {
-                                ((Rectangle)blocksHash[adj]).Fill = movecolor;
-                            }
-                        }
-                    }
-                    flag = true;
-                }
-                if (turn == "p1")
-                    turn = "p2";
-                else
-                    turn = "p1";
+            if (turn == "p1")
+                turn = "p2";
+            else
+                turn = "p1";
         }
 
         //---------------------------??COWPIE COWPOE CPWOE
@@ -185,14 +134,19 @@ namespace thegame
         }
 
 
-        //-----------------------------PLAYER MOVE / LEFT MOUSE CLICK----
+        //-----------------------------LEFT MOUSE CLICK on GRID----
         private void block_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             block = (Rectangle)sender;
-            if (adjs.Contains(block.Tag.ToString()))
-                move(block);
+            if (adjs != null)//If no adjacent squares are open, Player loses
+            {
+                if (adjs.Contains(block.Tag.ToString()))
+                    move(block);
+                else
+                    new Error(msgboard4, "You Cannot Move there!");
+            }
             else
-                new Error(msgboard4, "You Cannot Move there!");   
+                msgboard4.Text = "Game Over! " + turn + ", You lose!";
         }
 
 
