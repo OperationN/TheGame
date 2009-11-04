@@ -18,13 +18,13 @@ namespace thegame
     public class Player
     {
         string test;
-        List<Rectangle> adjsqrs;
-        Rectangle myrect;
+        List<String> adjsqrs = new List<String>();
+        Rectangle myrect=new Rectangle();
         bool canmove;
-                
-        public List<Rectangle> adjsquares(Rectangle activerect, int gridsize)
+
+        public List<String> adjsquares(Rectangle activerect, int gridsize)
         {
-            string name = activerect.Name;
+            string name = activerect.Tag.ToString();
             name = name.Substring(4);
             int x = name.IndexOf("x"); // find the "x"
             int col = int.Parse(name.Substring(0, x)); // grab the column number
@@ -37,22 +37,22 @@ namespace thegame
             eastExists = col + 1 <= gridsize ? true : false;
             westExists = col - 1 > 0 ? true : false;
 
-            if ((col > 1) && (row > 1)&&(col<gridsize)&&(row<gridsize))
-            {
-                for (int n = col - 1; n > col + 1; n++)
+           // if ((col > 1) && (row > 1) && (col < gridsize) && (row < gridsize))
+            //{
+                for (int n = col - 1; n == col + 1; n++)
                 {
-                    for (int y = row - 1; y > row + 1; y++)
+                    for (int y = row - 1; y == row + 1; y++)
                     {
-                        myrect.Name = "rect" + x + "x" + y;
-                        adjsqrs.Add(myrect);
+                        myrect.Name = "rect" + n + "x" + y;
+                        adjsqrs.Add(myrect.Name);
                     }
                 }
-            }
+            //}
             return adjsqrs;
         }
         public bool move(Rectangle click)
         {
-            
+
 
             return canmove;
         }
