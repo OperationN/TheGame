@@ -21,9 +21,9 @@ namespace thegame
 
         public List<String> move(Rectangle activerect, int gridsize)
         {
-            string name = activerect.Name;
-            int col = int.Parse(name.Substring(5, 1)); // grab the column number
-            int row = int.Parse(name.Substring(7, 1)); // grab the row number
+            string name = activerect.Tag.ToString();//rect1x1
+            int col = int.Parse(name.Substring(4, 1)); //grab the column number (x)
+            int row = int.Parse(name.Substring(4, 1)); //grab the row number (y) WTF:Why doesnt 6 work instead of 4!!
 
             bool northExists, southExists, eastExists, westExists = false;
 
@@ -31,12 +31,10 @@ namespace thegame
             southExists = row + 1 <= gridsize ? true : false;
             eastExists = col + 1 <= gridsize ? true : false;
             westExists = col - 1 > 0 ? true : false;
-
-           // if ((col > 1) && (row > 1) && (col < gridsize) && (row < gridsize))
-            //{
-                for (int x = col - 1; x > col + 1; x++)
+            //test for openings using above variables here
+                for (int x = col - 1; x <= col + 1; x++)
                 {
-                    for (int y = row - 1; y > row + 1; y++)
+                    for (int y = row - 1; y <= row + 1; y++)
                     {
                         adjsqrs.Add("rect" + x.ToString() + "x" + y.ToString());
                         

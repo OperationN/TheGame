@@ -17,10 +17,12 @@ namespace thegame
 {
     public partial class MainPage : UserControl
     {
+        private Player p = new Player(); //Player Class
         private Rectangle block = null;
         private string turn = null;//"p1" or "p2"
         private const int BLOCK_SIZE = 15;
         private static int squares = 0;
+        private Rectangle p1pos,p2pos,p3pos,p4pos = null; //current position of each player
         private static Dictionary<string, object> blocksHash = new Dictionary<string, object>(); // contains all blocks
         private List<string> adjs = new List<string>(); // contains current players adjacent squares
         private List<Rectangle> usedSquares = new List<Rectangle>();//Cannot move onto these squares
@@ -89,70 +91,57 @@ namespace thegame
                 adjs.Add("rect" + (squares - 1).ToString() + "x" + squares.ToString());
                 ((Rectangle)blocksHash[adjs[2]]).Fill = movecolor;
             }
-            ((Rectangle)blocksHash["rect1x1"]).Fill = p1color;
-            ((Rectangle)blocksHash["rect" + squares + "x" + squares]).Fill = p2color;
+            p1pos=((Rectangle)blocksHash["rect1x1"]);
+            p1pos.Fill = p1color;
+            p2pos = ((Rectangle)blocksHash["rect" + squares + "x" + squares]);
+            p2pos.Fill = p2color;
         }
 
-
-        //------------------------MOVE-----------------------------
-        public void move(Rectangle block)
-        {
-            new Error(msgboard4, " ");
-            usedSquares.Add(block);
-
-            if (turn == "p1")
-                block.Fill = p1color;
-
-            else
-                block.Fill = p2color;
-
-            //Testing player class
-            Player p = new Player();
-            adjs = p.move(block, squares);
-            msgboard4.Text=(adjs[0]);
-            if (adjs != null)//If no adjacent squares are open, Player loses
-            {
-                for (int x = adjs.Count()-1; x >= 0; x--)
-                    ((Rectangle)blocksHash[adjs[x]]).Fill = movecolor;
-            }
-            else
-                msgboard4.Text = "Game Over! " + turn + ", You lose!";
-            
-
-            flag = true;
-
-            if (turn == "p1")
-                turn = "p2";
-            else
-                turn = "p1";
-        }
-
-        //---------------------------??COWPIE COWPOE CPWOE
+        //-----------------------------??COWPIE COWPOE CPWOE----
         public MainPage()
         {
             InitializeComponent();
         }
 
-
         //-----------------------------LEFT MOUSE CLICK on GRID----
         private void block_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            block = (Rectangle)sender;
             if (adjs != null)//If no adjacent squares are open, Player loses
             {
-                if (adjs.Contains(block.Tag.ToString()))
+                block=(Rectangle)sender;
+                if (adjs.Contains(block.Tag.ToString()))//If player does not select an adj sqr, they cannot move
                 {
                     adjs.Clear();
-                    move(block);
-                }
-
+                    usedSquares.Add(block);
+                    if (turn == "p1") //Player1's turn
+                    {
+                        p1pos = block;
+                        adjs = p.move(p2pos, squares);
+                        p1pos.Fill= p1color;
+                        turn = "p2";
+                        
+                    }
+                    else //Player2's turn
+                    {
+                        p2pos = block;
+                        adjs = p.move(p1pos, squares);
+                        p2pos.Fill = p2color;
+                        turn = "p1"; 
+                    }
+                    
+                }                  
                 else
                     new Error(msgboard4, "You Cannot Move there!");
+
+                for (int x = adjs.Count()-1; x >= 0; x--)//Cycle through the adjs list and fill those rects
+                     ((Rectangle)blocksHash[adjs[x]]).Fill = movecolor;
             }
             else
                 msgboard4.Text = "Game Over! " + turn + ", You lose!";
-        }
 
+            flag = true; 
+
+        }
 
         //----------------------------------SUBMIT BUTTON CLICK----
         private void Submit_Click(object sender, RoutedEventArgs e)
