@@ -128,13 +128,13 @@ namespace thegame
                         p2pos.Fill = p2color;
                         turn = "p1"; 
                     }
-                    
                 }                  
                 else
                     new Error(msgboard4, "You Cannot Move there!");
 
-                for (int x = adjs.Count()-1; x >= 0; x--)//Cycle through the adjs list and fill those rects
-                     ((Rectangle)blocksHash[adjs[x]]).Fill = movecolor;
+                for (int x = adjs.Count() - 1; x >= 0; x--)//Cycle through the adjs list and fill those rects
+                    ((Rectangle)blocksHash[adjs[x]]).Fill = movecolor;
+
             }
             else
                 msgboard4.Text = "Game Over! " + turn + ", You lose!";

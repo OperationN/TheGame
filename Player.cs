@@ -24,7 +24,6 @@ namespace thegame
             string name = activerect.Tag.ToString();//rect1x1
             int col = int.Parse(name.Substring(4, 1)); //grab the column number (x)
             int row = int.Parse(name.Substring(4, 1)); //grab the row number (y) WTF:Why doesnt 6 work instead of 4!!
-
             bool northExists, southExists, eastExists, westExists = false;
 
             northExists = row - 1 > 0 ? true : false;
@@ -36,8 +35,7 @@ namespace thegame
                 {
                     for (int y = row - 1; y <= row + 1; y++)
                     {
-                        adjsqrs.Add("rect" + x.ToString() + "x" + y.ToString());
-                        
+                        adjsqrs.Add("rect" + x.ToString() + "x" + y.ToString()); 
                     }
                 }
             return adjsqrs;
