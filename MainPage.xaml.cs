@@ -108,8 +108,8 @@ namespace thegame
 
             //Testing player class
             Player p = new Player();
-            p.move(block);
-            adjs = p.adjsquares(block, squares);
+            adjs = p.move(block, squares);
+            msgboard4.Text=(adjs[0]);
             if (adjs != null)//If no adjacent squares are open, Player loses
             {
                 for (int x = adjs.Count()-1; x >= 0; x--)
@@ -141,7 +141,11 @@ namespace thegame
             if (adjs != null)//If no adjacent squares are open, Player loses
             {
                 if (adjs.Contains(block.Tag.ToString()))
+                {
+                    adjs.Clear();
                     move(block);
+                }
+
                 else
                     new Error(msgboard4, "You Cannot Move there!");
             }
