@@ -21,6 +21,7 @@ namespace thegame
 
         public List<String> move(Rectangle activerect, int gridsize, List<Rectangle>used)
         {
+
             string name = activerect.Tag.ToString();//rect1x1
             int col = int.Parse(name.Substring(4, 1)); //grab the column number (x)
             int row = int.Parse(name.Substring(4, 1)); //grab the row number (y) WTF:Why doesnt 6 work instead of 4!!
@@ -58,6 +59,20 @@ namespace thegame
                     }
                 }
 
+            }
+            else if (eastExists && southExists)
+            {
+                for (int x = col; x <= col + 1; x++)
+                {
+                    for (int y = row; y <= row + 1; y++)
+                    {
+                        for (int chk = used.Count - 1; chk >= 0; chk--)
+                        {
+                            if (used[chk].Tag.ToString() != "rect" + x.ToString() + "x" + y.ToString())
+                                adjsqrs.Add("rect" + x.ToString() + "x" + y.ToString());
+                        }
+                    }
+                }
             }
             return adjsqrs;
          }
