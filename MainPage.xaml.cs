@@ -24,7 +24,7 @@ namespace thegame
         private static int squares = 0;
         private static Dictionary<string, object> blocksHash = new Dictionary<string, object>(); // contains all blocks
         private List<string> adjs = new List<string>(); // contains current players adjacent squares
-        private List<Rectangle> usedSquares = new List<Rectangle>();//Cannot move onto these squares
+        private List<string> usedSquares = new List<string>();//Cannot move onto these squares
         private bool flag = false;//wtf is this for? Cow Pie Bingo
         private Rectangle p1pos, p2pos, p3pos, p4pos = null; //current positions
         //Colors
@@ -114,7 +114,7 @@ namespace thegame
                     for (int x = adjs.Count() - 3; x >= 0; x--)//clears squares
                         ((Rectangle)blocksHash[adjs[x]]).Fill = gridcolor;
                     adjs.Clear();
-                    usedSquares.Add(block);
+                    usedSquares.Add(block.Tag.ToString());
                     if (turn == "p1") //Player1's turn
                     {
                         p1pos = block;

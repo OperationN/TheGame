@@ -19,7 +19,7 @@ namespace thegame
     {
         List<String> adjsqrs = new List<String>();
 
-        public List<String> move(Rectangle activerect, int gridsize, List<Rectangle>used)
+        public List<String> move(Rectangle activerect, int gridsize, List<string>used)
         {
 
             string name = activerect.Tag.ToString();//rect1x1
@@ -37,10 +37,9 @@ namespace thegame
                 {
                     for (int y = row - 1; y <= row + 1; y++)
                     {
-                        for (int chk = used.Count - 1; chk >= 0; chk--)
+                        if (!used.Contains("rect" + x.ToString() + "x" + y.ToString()))
                         {
-                            if (used[chk].Tag.ToString() != "rect" + x.ToString() + "x" + y.ToString())
-                                adjsqrs.Add("rect" + x.ToString() + "x" + y.ToString());
+                            adjsqrs.Add("rect" + x.ToString() + "x" + y.ToString());
                         }
                     }
                 }
@@ -51,10 +50,9 @@ namespace thegame
                 {
                     for (int y = row - 1; y <= row; y++)
                     {
-                        for (int chk = used.Count - 1; chk >= 0; chk--)
+                        if (!used.Contains("rect" + x.ToString() + "x" + y.ToString()))
                         {
-                            if (used[chk].Tag.ToString() != "rect" + x.ToString() + "x" + y.ToString())
-                                adjsqrs.Add("rect" + x.ToString() + "x" + y.ToString());
+                            adjsqrs.Add("rect" + x.ToString() + "x" + y.ToString());
                         }
                     }
                 }
@@ -66,10 +64,9 @@ namespace thegame
                 {
                     for (int y = row; y <= row + 1; y++)
                     {
-                        for (int chk = used.Count - 1; chk >= 0; chk--)
+                        if (!used.Contains("rect" + x.ToString() + "x" + y.ToString()))
                         {
-                            if (used[chk].Tag.ToString() != "rect" + x.ToString() + "x" + y.ToString())
-                                adjsqrs.Add("rect" + x.ToString() + "x" + y.ToString());
+                            adjsqrs.Add("rect" + x.ToString() + "x" + y.ToString());
                         }
                     }
                 }
