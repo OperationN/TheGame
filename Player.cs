@@ -30,18 +30,35 @@ namespace thegame
             southExists = row + 1 <= gridsize ? true : false;
             eastExists = col + 1 <= gridsize ? true : false;
             westExists = col - 1 > 0 ? true : false;
-            //test for openings using above variables here
+            if (northExists && eastExists && southExists && westExists)
+            {
                 for (int x = col - 1; x <= col + 1; x++)
                 {
                     for (int y = row - 1; y <= row + 1; y++)
                     {
-                        for (int chk = used.Count-1; chk >=0; chk--)
+                        for (int chk = used.Count - 1; chk >= 0; chk--)
                         {
-                            if(used[chk].Tag.ToString()!="rect" + x.ToString() + "x" + y.ToString())
+                            if (used[chk].Tag.ToString() != "rect" + x.ToString() + "x" + y.ToString())
                                 adjsqrs.Add("rect" + x.ToString() + "x" + y.ToString());
-                        }    
+                        }
                     }
                 }
+            }
+            else if (northExists && westExists)
+            {
+                for (int x = col - 1; x <= col; x++)
+                {
+                    for (int y = row - 1; y <= row; y++)
+                    {
+                        for (int chk = used.Count - 1; chk >= 0; chk--)
+                        {
+                            if (used[chk].Tag.ToString() != "rect" + x.ToString() + "x" + y.ToString())
+                                adjsqrs.Add("rect" + x.ToString() + "x" + y.ToString());
+                        }
+                    }
+                }
+
+            }
             return adjsqrs;
          }
             

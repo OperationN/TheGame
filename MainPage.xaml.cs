@@ -22,18 +22,18 @@ namespace thegame
         private string turn = null;//"p1" or "p2"
         private const int BLOCK_SIZE = 15;
         private static int squares = 0;
-        private Rectangle p1pos,p2pos,p3pos,p4pos = null; //current position of each player
         private static Dictionary<string, object> blocksHash = new Dictionary<string, object>(); // contains all blocks
         private List<string> adjs = new List<string>(); // contains current players adjacent squares
         private List<Rectangle> usedSquares = new List<Rectangle>();//Cannot move onto these squares
         private bool flag = false;//wtf is this for? Cow Pie Bingo
+        private Rectangle p1pos, p2pos, p3pos, p4pos = null; //current positions
         //Colors
-        static SolidColorBrush p1color = new SolidColorBrush(Colors.Red); //Player 1 Square Color
-        static SolidColorBrush p2color = new SolidColorBrush(Colors.Blue); //Player 2 Square Color
+        static SolidColorBrush p1color = new SolidColorBrush(Colors.Red); //Player 1 Square
+        static SolidColorBrush p2color = new SolidColorBrush(Colors.Blue); //Player 2 Square
         static SolidColorBrush movecolor = new SolidColorBrush(Colors.Yellow); //Highlights where a player can move
-        static SolidColorBrush portalcolor = new SolidColorBrush(Colors.Magenta); //Color of portal
-        static SolidColorBrush gridcolor = new SolidColorBrush(Colors.White); //grid color
-        static SolidColorBrush linecolor = new SolidColorBrush(Colors.Brown);
+        static SolidColorBrush portalcolor = new SolidColorBrush(Colors.Magenta); //portal
+        static SolidColorBrush gridcolor = new SolidColorBrush(Colors.White); //grid
+        static SolidColorBrush linecolor = new SolidColorBrush(Colors.Brown);//grid lines
         //----------------------------------CREATES PLAYING GRID----
         public void build()
         {
@@ -106,7 +106,7 @@ namespace thegame
         //-----------------------------LEFT MOUSE CLICK on GRID----
         private void block_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (adjs != null)//If no adjacent squares are open, Player loses
+            if (adjs.Count>0)//If no adjacent squares are open, Player loses
             {
                 block=(Rectangle)sender;
                 if (adjs.Contains(block.Tag.ToString()))//If player does not select an adj sqr, they cannot move
@@ -133,7 +133,7 @@ namespace thegame
                     new Error(msgboard4, "You Cannot Move there!");
                 msgboard4.Text = adjs.Count.ToString();
                 for (int x = adjs.Count() - 3; x >= 0; x--)//Cycle through the adjs list and fill those rects
-                    ((Rectangle)blocksHash[adjs[0]]).Fill = movecolor;
+                    ((Rectangle)blocksHash[adjs[x]]).Fill = movecolor;
             }
             else
                 msgboard4.Text = "Game Over! " + turn + ", You lose!";
