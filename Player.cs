@@ -19,7 +19,7 @@ namespace thegame
     {
         List<String> adjsqrs = new List<String>();
 
-        public List<String> move(Rectangle activerect, int gridsize)
+        public List<String> move(Rectangle activerect, int gridsize, List<Rectangle>used)
         {
             string name = activerect.Tag.ToString();//rect1x1
             int col = int.Parse(name.Substring(4, 1)); //grab the column number (x)
@@ -35,7 +35,11 @@ namespace thegame
                 {
                     for (int y = row - 1; y <= row + 1; y++)
                     {
-                        adjsqrs.Add("rect" + x.ToString() + "x" + y.ToString()); 
+                        for (int chk = used.Count-1; chk >=0; chk--)
+                        {
+                            if(used[chk].Tag.ToString()!="rect" + x.ToString() + "x" + y.ToString())
+                                adjsqrs.Add("rect" + x.ToString() + "x" + y.ToString());
+                        }    
                     }
                 }
             return adjsqrs;

@@ -116,7 +116,7 @@ namespace thegame
                     if (turn == "p1") //Player1's turn
                     {
                         p1pos = block;
-                        adjs = p.move(p2pos, squares);
+                        adjs = p.move(p2pos, squares,usedSquares);
                         p1pos.Fill= p1color;
                         turn = "p2";
                         
@@ -124,17 +124,16 @@ namespace thegame
                     else //Player2's turn
                     {
                         p2pos = block;
-                        adjs = p.move(p1pos, squares);
+                        adjs = p.move(p1pos, squares,usedSquares);
                         p2pos.Fill = p2color;
                         turn = "p1"; 
                     }
                 }                  
                 else
                     new Error(msgboard4, "You Cannot Move there!");
-
-                for (int x = adjs.Count() - 1; x >= 0; x--)//Cycle through the adjs list and fill those rects
-                    ((Rectangle)blocksHash[adjs[x]]).Fill = movecolor;
-
+                msgboard4.Text = adjs.Count.ToString();
+                for (int x = adjs.Count() - 3; x >= 0; x--)//Cycle through the adjs list and fill those rects
+                    ((Rectangle)blocksHash[adjs[0]]).Fill = movecolor;
             }
             else
                 msgboard4.Text = "Game Over! " + turn + ", You lose!";
