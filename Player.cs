@@ -24,7 +24,7 @@ namespace thegame
 
             string name = activerect.Tag.ToString();//rect1x1
             int col = int.Parse(name.Substring(4, 1)); //grab the column number (x)
-            int row = int.Parse(name.Substring(4, 1)); //grab the row number (y) WTF:Why doesnt 6 work instead of 4!!
+            int row = int.Parse(name.Substring(6, 1)); //grab the row number (y) 
             bool northExists, southExists, eastExists, westExists = false;
 
             northExists = row - 1 > 0 ? true : false;

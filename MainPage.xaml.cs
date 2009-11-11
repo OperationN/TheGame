@@ -92,8 +92,10 @@ namespace thegame
                 ((Rectangle)blocksHash[adjs[2]]).Fill = movecolor;
             }
             p1pos=((Rectangle)blocksHash["rect1x1"]);
+            usedSquares.Add("rect1x1");
             p1pos.Fill = p1color;
             p2pos = ((Rectangle)blocksHash["rect" + squares + "x" + squares]);
+            usedSquares.Add("rect" + squares + "x" + squares);
             p2pos.Fill = p2color;
         }
 
