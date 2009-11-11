@@ -111,6 +111,8 @@ namespace thegame
                 block=(Rectangle)sender;
                 if (adjs.Contains(block.Tag.ToString()))//If player does not select an adj sqr, they cannot move
                 {
+                    for (int x = adjs.Count() - 3; x >= 0; x--)//clears squares
+                        ((Rectangle)blocksHash[adjs[x]]).Fill = gridcolor;
                     adjs.Clear();
                     usedSquares.Add(block);
                     if (turn == "p1") //Player1's turn
@@ -118,8 +120,7 @@ namespace thegame
                         p1pos = block;
                         adjs = p.move(p2pos, squares,usedSquares);
                         p1pos.Fill= p1color;
-                        turn = "p2";
-                        
+                        turn = "p2";    
                     }
                     else //Player2's turn
                     {
@@ -131,7 +132,6 @@ namespace thegame
                 }                  
                 else
                     new Error(msgboard4, "You Cannot Move there!");
-                msgboard4.Text = adjs.Count.ToString();
                 for (int x = adjs.Count() - 3; x >= 0; x--)//Cycle through the adjs list and fill those rects
                     ((Rectangle)blocksHash[adjs[x]]).Fill = movecolor;
             }
