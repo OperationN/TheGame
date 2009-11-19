@@ -9,6 +9,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Text.RegularExpressions;
 
@@ -32,11 +33,13 @@ namespace thegame
         static SolidColorBrush p2color = new SolidColorBrush(Colors.Blue); //Player 2 Square
         static SolidColorBrush movecolor = new SolidColorBrush(Colors.Yellow); //Highlights where a player can move
         static SolidColorBrush portalcolor = new SolidColorBrush(Colors.Magenta); //portal
-        static SolidColorBrush gridcolor = new SolidColorBrush(Colors.White); //grid
+        static SolidColorBrush gridcolor = new SolidColorBrush(Colors.Transparent); //grid
         static SolidColorBrush linecolor = new SolidColorBrush(Colors.Brown);//grid lines
+
         //----------------------------------CREATES PLAYING GRID----
         public void build()
         {
+           
             GameCanvas.Height = (squares * BLOCK_SIZE) + (BLOCK_SIZE * 2);
             GameCanvas.Width = (squares * BLOCK_SIZE) + (BLOCK_SIZE * 2);
             GameScroll.Width = (squares * BLOCK_SIZE) + (BLOCK_SIZE * 5);
@@ -47,6 +50,7 @@ namespace thegame
             P1WeaponStack.Opacity = 1;
             P2WeaponStack.Opacity = 1;
             PlayingStack.SetValue(Canvas.ZIndexProperty, 2);
+
             for (int x = 1; x <= squares; x++)//Row #
             {
                 double left = x * (BLOCK_SIZE);
@@ -65,9 +69,11 @@ namespace thegame
                     block.MouseLeftButtonDown += block_MouseLeftButtonDown;
                     block.Tag = tag;
                     this.GameCanvas.Children.Add(block);
+                    
                     blocksHash.Add(tag, block);
                 }
             }
+            
             adjs.Clear();
             Random wgf = new Random();
             int whoGoesFirst = wgf.Next(1, 3);
@@ -103,6 +109,7 @@ namespace thegame
         public MainPage()
         {
             InitializeComponent();
+
         }
 
         //-----------------------------LEFT MOUSE CLICK on GRID----

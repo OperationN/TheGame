@@ -31,11 +31,64 @@ namespace thegame
             southExists = row + 1 <= gridsize ? true : false;
             eastExists = col + 1 <= gridsize ? true : false;
             westExists = col - 1 > 0 ? true : false;
-            if (northExists && eastExists && southExists && westExists)
+            if (northExists && eastExists && southExists && westExists)//All Open
             {
                 for (int x = col - 1; x <= col + 1; x++)
                 {
                     for (int y = row - 1; y <= row + 1; y++)
+                    {
+                        if (!used.Contains("rect" + x.ToString() + "x" + y.ToString()))
+                        {
+                            adjsqrs.Add("rect" + x.ToString() + "x" + y.ToString());
+                        }
+                    }
+                }
+            }
+            else if (westExists && eastExists && southExists)
+            {
+                for (int x = col - 1; x <= col+1; x++)
+                {
+                    for (int y = row; y <= row + 1; y++)
+                    {
+                        if (!used.Contains("rect" + x.ToString() + "x" + y.ToString()))
+                        {
+                            adjsqrs.Add("rect" + x.ToString() + "x" + y.ToString());
+                        }
+                    }
+                }
+            }
+            else if (eastExists && westExists && northExists)
+            {
+                for (int x = col - 1; x <= col + 1; x++)
+                {
+                    for (int y = row - 1; y <= row; y++)
+                    {
+                        if (!used.Contains("rect" + x.ToString() + "x" + y.ToString()))
+                        {
+                            adjsqrs.Add("rect" + x.ToString() + "x" + y.ToString());
+                        }
+                    }
+                }
+            }
+
+            else if (southExists && eastExists && northExists)
+            {
+                for (int x = col; x <= col + 1; x++)
+                {
+                    for (int y = row-1; y <= row+1; y++)
+                    {
+                        if (!used.Contains("rect" + x.ToString() + "x" + y.ToString()))
+                        {
+                            adjsqrs.Add("rect" + x.ToString() + "x" + y.ToString());
+                        }
+                    }
+                }
+            }
+            else if (southExists && westExists && northExists)
+            {
+                for (int x = col - 1; x <= col; x++)
+                {
+                    for (int y = row-1; y <= row+1; y++)
                     {
                         if (!used.Contains("rect" + x.ToString() + "x" + y.ToString()))
                         {
@@ -58,6 +111,7 @@ namespace thegame
                 }
 
             }
+
             else if (eastExists && southExists)
             {
                 for (int x = col; x <= col + 1; x++)
@@ -71,6 +125,33 @@ namespace thegame
                     }
                 }
             }
+            else if (southExists && westExists)
+            {
+                for (int x = col-1; x <= col; x++)
+                {
+                    for (int y = row; y <= row+1; y++)
+                    {
+                        if (!used.Contains("rect" + x.ToString() + "x" + y.ToString()))
+                        {
+                            adjsqrs.Add("rect" + x.ToString() + "x" + y.ToString());
+                        }
+                    }
+                }
+            }
+            else if (northExists && eastExists) 
+            {
+                for (int x = col; x <= col+1; x++)
+                {
+                    for (int y = row - 1; y <= row; y++)
+                    {
+                        if (!used.Contains("rect" + x.ToString() + "x" + y.ToString()))
+                        {
+                            adjsqrs.Add("rect" + x.ToString() + "x" + y.ToString());
+                        }
+                    }
+                }
+            }
+
             return adjsqrs;
          }
             
