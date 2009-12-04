@@ -179,6 +179,10 @@ namespace thegame
         {
             Image P1weapon = (Image)sender;
             P1weapon.Opacity = 0;
+            Point pt = e.GetPosition(null);
+            Cursor = Cursors.None;
+            Canvas.SetTop(gernade1, pt.Y);
+            Canvas.SetLeft(gernade1, pt.X);
         }
     }
 
@@ -188,6 +192,16 @@ namespace thegame
         public Error(TextBlock textblock, String message)
         {
             textblock.Text = message;
+        }
+    }
+
+    //Custom Curors
+    public partial class ccursor : UserControl
+    {
+        public void setcursorimage(string source)
+        {
+            Uri uri = new Uri(source, UriKind.Relative);
+            elCursor.source = new System.Windows.Media.Imaging.BitmapImage(uri);
         }
     }
 }
